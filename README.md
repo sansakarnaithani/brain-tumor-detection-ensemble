@@ -1,66 +1,54 @@
 # CortexAI: Hybrid Ensemble Brain Tumor Detector 🧠
 
-This project is a desktop application that uses a sophisticated deep learning ensemble model to classify brain MRI scans as either "Tumor" or "Healthy." It combines the strengths of a pre-trained VGG16 model with a custom-built hybrid CNN-Transformer model to achieve high accuracy and robust performance. The application features a user-friendly graphical interface built with Tkinter for real-time image analysis.
+CortexAI is a deep learning-based desktop application designed to classify brain MRI images as either **Tumor** or **Healthy**. The project combines a **VGG16 transfer-learning model** with a custom **Hybrid CNN-Transformer model** using prediction-level ensemble learning.
 
+The application includes a user-friendly graphical interface built with **Tkinter**, allowing users to upload an MRI image and receive a classification result with a confidence score.
 
-Screenshots:
-![App Screenshot](/app_images/bt1.png)
-![App Screenshot](/app_images/bt2.png)
-![App Screenshot](/app_images/bt3.png)
+> **Disclaimer:** This project is intended for educational and research purposes only. It is not a clinically validated medical diagnostic tool and should not be used as a substitute for professional medical diagnosis.
+
+---
+
+## 📸 Screenshots
+
+![Application Screenshot 1](app_images/bt1.png)
+
+![Application Screenshot 2](app_images/bt2.png)
+
+![Application Screenshot 3](app_images/bt3.png)
 
 ---
 
 ## ✨ Features
 
-- **Upload & Classify:** Easily upload an MRI scan image from your computer.
-- **Instant Prediction:** Get a real-time classification of "Tumor" or "Healthy."
-- **Confidence Score:** View the model's confidence in its prediction.
-- **Ensemble Power:** Utilizes an advanced ensemble of two distinct deep learning models for enhanced accuracy.
-- **Intuitive GUI:** A simple and clean interface built with Python's Tkinter library.
+- **MRI Image Upload:** Select a brain MRI image directly from your computer.
+- **Binary Classification:** Classifies the uploaded image as **Tumor** or **Healthy**.
+- **Confidence Score:** Displays the model's confidence for the prediction.
+- **Ensemble Prediction:** Combines predictions from VGG16 and a Hybrid CNN-Transformer model.
+- **Desktop GUI:** Provides an easy-to-use interface built with Python's Tkinter library.
+- **Model Evaluation:** Includes classification metrics, confusion matrix analysis, and training-history visualization.
 
 ---
 
 ## 🤖 Models Used
 
-This project employs an **ensemble learning** strategy by averaging the predictions of two powerful models:
+### 1. VGG16 — Transfer Learning
 
-1.  **VGG16 (Transfer Learning):** A deep Convolutional Neural Network (CNN) pre-trained on the ImageNet dataset. It excels at recognizing general image features, providing a strong baseline for classification.
-    - **Validation Accuracy:** 98.85%
+The project uses a **VGG16-based convolutional neural network** with transfer learning. VGG16 provides pre-trained image feature extraction capabilities that are adapted for binary brain MRI classification.
 
-2.  **Hybrid CNN-Transformer:** A custom-built model that uses a CNN base to extract local features (edges, textures) and a Transformer encoder to analyze the global relationships between these features, providing a holistic understanding of the image.
-    - **Validation Accuracy:** 59.24%
+**Observed Validation Accuracy:** approximately **98–99%**
 
-**Ensemble Performance:**
-By combining the predictions of these two models, the final ensemble achieves a superior accuracy of **99.51%**, demonstrating how a weaker, diverse model can help correct the errors of a stronger one.
+### 2. Hybrid CNN-Transformer
 
----
+The custom Hybrid CNN-Transformer architecture combines:
 
-## 🛠️ Setup and Installation
+- **CNN layers** for extracting local spatial features such as edges and textures.
+- **Transformer-based processing** for learning broader relationships between extracted features.
 
-1. Install Dependencies
-This project requires the following libraries. You can install them using pip:
+**Observed Validation Accuracy:** approximately **59.27%**
 
-```pip install tensorflow opencv-python Pillow```
+### 3. Ensemble Model
 
-2. Download the Pre-trained Models
-You will need the two trained model files (.h5). Place them in the root directory of the project:
+Predictions from the VGG16 and Hybrid CNN-Transformer models are averaged to generate the final classification:
 
-brain_tumor_vgg16.h5
-
-brain_tumor_hybrid_cnn_transformer.h5
-
-🚀 How to Run
-Once the setup is complete, you can launch the application by running the app.py script:
-
-```python app.py```
-
-The Tkinter window will open, and you can begin uploading MRI scans for classification.
-
-📂 File Structure
-```
-├── app.py                                  # The main Tkinter application script
-├── brain_tumor_vgg16.h5                    # The saved VGG16 model
-├── brain_tumor_hybrid_cnn_transformer.h5   # The saved CNN-Transformer model
-├── README.md                               # This README file
-└── (optional) requirements.txt             # File listing dependencies
-```
+```python
+ensemble_preds_prob = (vgg_preds + hybrid_preds) / 2.0
